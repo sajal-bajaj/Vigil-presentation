@@ -557,7 +557,7 @@
       <div class="modal-section-title">CORE RESPONSIBILITIES</div>
       <ul class="modal-list">
         <li>Ingests Slack alert events via API Gateway + SQS FIFO (strict ordering, no duplicates)</li>
-        <li>Fingerprints alerts and checks DynamoDB for cached RCAs (71% hit rate) or known issues</li>
+        <li>Fingerprints alerts and checks DynamoDB for cached RCAs (80%+ hit rate) or known issues</li>
         <li>Routes to AI Agent only when fresh analysis is needed — saving cost and time</li>
         <li>Relays Agent responses back to the correct Slack thread</li>
         <li>Tracks alert frequency and triggers escalation when thresholds are breached</li>
@@ -653,7 +653,7 @@
         <div class="step">2. Vigil auto-analyzes logs + code</div>
         <div class="step">3. RCA posted in-thread</div>
         <div class="step">4. Team reviews & acts</div>
-        <div class="step" style="background: rgba(46,125,50,0.05); text-align: center; font-weight: 600;">71% of recurring alerts = instant cached response</div>
+        <div class="step" style="background: rgba(46,125,50,0.05); text-align: center; font-weight: 600;">80%+ of recurring alerts = instant cached response</div>
         <div class="time-badge">~2 min fresh RCA | Cached = instant</div>
       </div>
     </div>
@@ -788,8 +788,8 @@
         <p>Reads Coralogix logs + GitHub code around the alert timeframe. Posts structured RCA with evidence and confidence levels in the Slack thread (~2 min).</p>
       </div>
       <div class="feature-card cyan">
-        <h3>Smart Caching</h3>
-        <p>71% cache hit rate on recurring alerts = instant response. DynamoDB-backed fingerprinting with 15-day staleness. Click 'Analyse' anytime for a fresh look.</p>
+        <h3>Smart Caching & On-Demand Analysis</h3>
+        <p>80%+ cache hit rate on recurring alerts = instant response. DynamoDB-backed fingerprinting with 15-day staleness. Click 'Analyse' anytime for a fresh look.</p>
       </div>
       <div class="feature-card red">
         <h3>Known Issue Tagging</h3>
