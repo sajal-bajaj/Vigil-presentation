@@ -449,6 +449,88 @@
     border: 1.5px solid;
     min-width: 100px;
   }
+
+  /* Component detail modals */
+  .detail-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    cursor: pointer;
+  }
+  .detail-modal-backdrop.show { display: flex; }
+  .detail-modal {
+    background: linear-gradient(135deg, #0B1B2B, #162d47);
+    border: 1.5px solid rgba(91,229,239,0.3);
+    border-radius: 20px;
+    padding: 40px 44px;
+    max-width: 620px;
+    width: 90vw;
+    color: white;
+    cursor: default;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .detail-modal .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; color: rgba(255,255,255,0.4);
+    font-size: 24px; cursor: pointer; line-height: 1;
+  }
+  .detail-modal .modal-close:hover { color: white; }
+  .detail-modal h2 {
+    font-size: 24px; font-weight: 700; color: var(--cyan); margin: 0 0 6px 0;
+  }
+  .detail-modal .modal-subtitle {
+    font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.5); margin-bottom: 20px;
+  }
+  .detail-modal .modal-section {
+    margin-bottom: 18px;
+  }
+  .detail-modal .modal-section-title {
+    font-size: 12px; font-weight: 600; color: var(--cyan); letter-spacing: 1.5px; margin-bottom: 10px;
+  }
+  .detail-modal .modal-list {
+    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;
+  }
+  .detail-modal .modal-list li {
+    font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.8); padding-left: 20px; position: relative; line-height: 1.5;
+  }
+  .detail-modal .modal-list li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); opacity: 0.6;
+  }
+  .detail-modal .modal-tech-pills {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .detail-modal .modal-pill {
+    font-size: 13px; padding: 5px 14px; border-radius: 20px;
+    background: rgba(91,229,239,0.1); border: 1px solid rgba(91,229,239,0.25);
+    color: var(--cyan); font-weight: 500;
+  }
+  .clickable-node {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .clickable-node:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 20px rgba(91,229,239,0.3);
+  }
+  .clickable-node::after {
+    content: 'click to explore';
+    position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; color: rgba(91,229,239,0.5); white-space: nowrap;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .clickable-node:hover::after { opacity: 1; }
 </style>
 </head>
 <body>
@@ -462,6 +544,70 @@
 <!-- Fullscreen overlay for screenshots -->
 <div class="overlay" id="overlay" onclick="this.classList.remove('show')">
   <img id="overlayImg" src="" alt="Screenshot">
+</div>
+
+<!-- Orchestrator detail modal -->
+<div class="detail-modal-backdrop" id="orchestratorModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="detail-modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="document.getElementById('orchestratorModal').classList.remove('show')">&times;</button>
+    <h2>Vigil Orchestrator</h2>
+    <div class="modal-subtitle">Serverless event-driven backbone — routes, deduplicates, and optimizes every alert</div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">CORE RESPONSIBILITIES</div>
+      <ul class="modal-list">
+        <li>Ingests Slack alert events via API Gateway + SQS FIFO (strict ordering, no duplicates)</li>
+        <li>Fingerprints alerts and checks DynamoDB for cached RCAs (71% hit rate) or known issues</li>
+        <li>Routes to AI Agent only when fresh analysis is needed — saving cost and time</li>
+        <li>Relays Agent responses back to the correct Slack thread</li>
+        <li>Tracks alert frequency and triggers escalation when thresholds are breached</li>
+      </ul>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">TECH STACK</div>
+      <div class="modal-tech-pills">
+        <span class="modal-pill">AWS Lambda</span>
+        <span class="modal-pill">SQS FIFO</span>
+        <span class="modal-pill">DynamoDB</span>
+        <span class="modal-pill">API Gateway</span>
+        <span class="modal-pill">SSM Parameter Store</span>
+        <span class="modal-pill">SAM (IaC)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Agent detail modal -->
+<div class="detail-modal-backdrop" id="agentModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="detail-modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="document.getElementById('agentModal').classList.remove('show')">&times;</button>
+    <h2>Vigil AI Agent</h2>
+    <div class="modal-subtitle">Agentic AI that investigates alerts like a senior engineer would</div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">CORE RESPONSIBILITIES</div>
+      <ul class="modal-list">
+        <li>Receives alert context from the Orchestrator and plans an investigation strategy</li>
+        <li>Queries Coralogix logs via MCP to find error patterns around the alert timeframe</li>
+        <li>Scans relevant GitHub code via MCP to trace the root cause in source</li>
+        <li>Generates a structured RCA with evidence, confidence levels, and remediation steps</li>
+        <li>Uses a skills-based modular architecture — new capabilities are added as skills</li>
+      </ul>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">TECH STACK</div>
+      <div class="modal-tech-pills">
+        <span class="modal-pill">ECS Fargate</span>
+        <span class="modal-pill">Claude Sonnet 4.6</span>
+        <span class="modal-pill">AWS Bedrock</span>
+        <span class="modal-pill">Coralogix MCP</span>
+        <span class="modal-pill">GitHub MCP</span>
+        <span class="modal-pill">Arize (Evals)</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="deck" id="deck">
@@ -521,53 +667,110 @@
   <!-- ============================================================ -->
   <!-- SLIDE 3: THE SOLUTION — ARCHITECTURE -->
   <!-- ============================================================ -->
-  <div class="slide bg-white" data-slide="2">
+  <div class="slide bg-gradient content-heavy" data-slide="2">
     <div class="logo">G-P <span>| Vigil</span></div>
-    <div class="anim tag" style="color: var(--navy);">The Solution</div>
-    <div class="anim title" style="font-size:34px; color: var(--navy);">Vigil: AI-powered incident triage in Slack</div>
+    <div class="anim tag" style="color: var(--cyan);">The Solution</div>
+    <div class="anim title" style="font-size:32px; color:white;">Vigil: AI-powered incident triage in Slack</div>
     <div class="anim accent-line"></div>
 
-    <!-- Architecture flow - HTML based -->
-    <div class="anim arch-flow">
-      <div class="arch-node" style="background: var(--red); color: white;">
-        Coralogix<br>Alert
+    <!-- Main architecture: two-column layout -->
+    <div class="anim" style="display:flex; gap:40px; margin-top:8px; align-items:stretch;">
+
+      <!-- Left: The journey narrative -->
+      <div style="flex:0 0 310px; display:flex; flex-direction:column; gap:0;">
+        <div style="font-size:14px; font-weight:600; color:var(--cyan); letter-spacing:1.5px; margin-bottom:18px;">HOW IT WORKS</div>
+
+        <!-- Step 1 -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding-bottom:20px; border-left:3px solid rgba(91,229,239,0.3); margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-11px; top:0; width:20px; height:20px; border-radius:50%; background:var(--red); border:3px solid var(--navy);"></div>
+          <div>
+            <div style="font-size:17px; font-weight:600; color:white;">Alert fires</div>
+            <div style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.6); line-height:1.5;">Coralogix detects an anomaly and sends alert to Slack</div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding-bottom:20px; border-left:3px solid rgba(91,229,239,0.3); margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-11px; top:0; width:20px; height:20px; border-radius:50%; background:var(--navy); border:3px solid var(--cyan);"></div>
+          <div>
+            <div style="font-size:17px; font-weight:600; color:white;">Vigil intercepts</div>
+            <div style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.6); line-height:1.5;">Ingests, deduplicates, checks cache & known issues</div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding-bottom:20px; border-left:3px solid rgba(91,229,239,0.3); margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-11px; top:0; width:20px; height:20px; border-radius:50%; background:var(--cyan); border:3px solid var(--navy);"></div>
+          <div>
+            <div style="font-size:17px; font-weight:600; color:white;">AI Agent investigates</div>
+            <div style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.6); line-height:1.5;">Reads logs, scans code, checks runbooks</div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="display:flex; gap:16px; align-items:flex-start; margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-11px; top:0; width:20px; height:20px; border-radius:50%; background:var(--green); border:3px solid var(--navy);"></div>
+          <div>
+            <div style="font-size:17px; font-weight:600; color:white;">RCA posted in-thread</div>
+            <div style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.6); line-height:1.5;">Root-cause with evidence & next steps — ~2 min</div>
+          </div>
+        </div>
       </div>
-      <div class="arch-arrow">&#10132;</div>
-      <div class="arch-node" style="background: #4A154B; color: white;">
-        Slack<br>Channel
-      </div>
-      <div class="arch-arrow">&#10132;</div>
-      <div class="arch-node" style="background: var(--navy); color: white; min-width: 180px; animation: pulseGlow 3s ease infinite;">
-        <strong>Vigil Orchestrator</strong><br>
-        <span style="font-size:10px; color: var(--light-cyan);">Ingester &nbsp;|&nbsp; Relay &nbsp;|&nbsp; History DB</span>
-      </div>
-      <div class="arch-arrow">&#10132;</div>
-      <div class="arch-node" style="background: var(--cyan); color: var(--navy);">
-        <strong>Vigil AI<br>Agent</strong>
-      </div>
-      <div class="arch-arrow">&#10132;</div>
-      <div class="arch-node" style="background: var(--green); color: white;">
-        Slack RCA<br>Response
+
+      <!-- Right: Architecture diagram -->
+      <div style="flex:1; display:flex; flex-direction:column; gap:14px;">
+
+        <!-- Central pipeline -->
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(91,229,239,0.15); border-radius:16px; padding:24px 28px; display:flex; flex-direction:column; gap:16px;">
+
+          <!-- Top flow: Alert → Orchestrator → Agent → Response -->
+          <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
+            <div style="background:var(--red); color:white; border-radius:12px; padding:14px 18px; text-align:center; font-size:14px; font-weight:600; min-width:95px;">
+              ⚠ Coralogix<br>Alert
+            </div>
+            <div style="color:var(--cyan); font-size:24px;">→</div>
+            <div style="background:#4A154B; color:white; border-radius:12px; padding:14px 18px; text-align:center; font-size:14px; font-weight:600; min-width:85px;">
+              💬 Slack<br>Channel
+            </div>
+            <div style="color:var(--cyan); font-size:24px;">→</div>
+            <div class="clickable-node" style="background:rgba(91,229,239,0.12); border:2px solid var(--cyan); border-radius:14px; padding:16px 20px; text-align:center; min-width:160px; position:relative;" onclick="event.stopPropagation(); document.getElementById('orchestratorModal').classList.add('show')">
+              <div style="font-size:15px; font-weight:700; color:var(--cyan);">Vigil Orchestrator</div>
+              <div style="font-size:11px; color:rgba(255,255,255,0.55); margin-top:4px;">Ingester | Relay | History DB</div>
+            </div>
+            <div style="color:var(--cyan); font-size:24px;">→</div>
+            <div class="clickable-node" style="background:rgba(91,229,239,0.12); border:2px solid var(--cyan); border-radius:14px; padding:16px 20px; text-align:center; min-width:140px; position:relative;" onclick="event.stopPropagation(); document.getElementById('agentModal').classList.add('show')">
+              <div style="font-size:15px; font-weight:700; color:var(--cyan);">Vigil AI Agent</div>
+              <div style="font-size:11px; color:rgba(255,255,255,0.55); margin-top:4px;">RCA Skill | MCP Tools</div>
+            </div>
+            <div style="color:var(--cyan); font-size:24px;">→</div>
+            <div style="background:var(--green); color:white; border-radius:12px; padding:14px 18px; text-align:center; font-size:14px; font-weight:600; min-width:85px;">
+              ✅ Slack<br>RCA
+            </div>
+          </div>
+
+          <!-- Feature & tool badges row -->
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <div style="font-size:13px; padding:6px 14px; border-radius:8px; background:rgba(91,229,239,0.12); border:1px solid rgba(91,229,239,0.3); color:var(--cyan); font-weight:500;">Cached RCA</div>
+            <div style="font-size:13px; padding:6px 14px; border-radius:8px; background:rgba(91,229,239,0.12); border:1px solid rgba(91,229,239,0.3); color:var(--cyan); font-weight:500;">Known Issue</div>
+            <div style="font-size:13px; padding:6px 14px; border-radius:8px; background:rgba(91,229,239,0.12); border:1px solid rgba(91,229,239,0.3); color:var(--cyan); font-weight:500;">Frequency Escalation</div>
+            <div style="font-size:13px; padding:6px 14px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.65);">Coralogix MCP</div>
+            <div style="font-size:13px; padding:6px 14px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.65);">GitHub MCP</div>
+            <div style="font-size:13px; padding:6px 14px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.65);">RCA Skill</div>
+          </div>
+        </div>
+
+        <!-- Bottom: Tech stack + trust pills -->
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); background:rgba(255,255,255,0.06); padding:6px 16px; border-radius:20px;">Orchestrator: Lambda | SQS FIFO | DynamoDB | API Gateway</div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); background:rgba(255,255,255,0.06); padding:6px 16px; border-radius:20px;">Agent: ECS Fargate | Claude Sonnet 4.6 on Bedrock</div>
+          <div style="font-size:13px; color:var(--cyan); background:rgba(91,229,239,0.1); padding:6px 16px; border-radius:20px; font-weight:500;">🔒 PII scrubbed</div>
+          <div style="font-size:13px; color:var(--cyan); background:rgba(91,229,239,0.1); padding:6px 16px; border-radius:20px; font-weight:500;">🔒 Read-only GitHub</div>
+        </div>
+
       </div>
     </div>
 
-    <div class="anim arch-sub">
-      <div class="arch-sub-node" style="background: var(--light-cyan); border-color: var(--cyan); color: var(--navy);">Cached RCA</div>
-      <div class="arch-sub-node" style="background: var(--light-cyan); border-color: var(--cyan); color: var(--navy);">Known Issue</div>
-      <div class="arch-sub-node" style="background: var(--light-cyan); border-color: var(--cyan); color: var(--navy);">Frequency Escalation</div>
-      <div class="arch-sub-node" style="background: #F0F0FF; border-color: #CCCCDD; color: var(--navy);">Coralogix MCP</div>
-      <div class="arch-sub-node" style="background: #F0F0FF; border-color: #CCCCDD; color: var(--navy);">GitHub MCP</div>
-      <div class="arch-sub-node" style="background: #F0F0FF; border-color: #CCCCDD; color: var(--navy);">RCA Skill</div>
-    </div>
-
-    <div class="anim" style="display:flex; justify-content:center; gap:20px; margin-top:14px; flex-wrap:wrap;">
-      <div style="font-size:11px; color:var(--med-gray); background:var(--light-gray); padding:5px 12px; border-radius:20px;">AWS Serverless (Lambda, SQS FIFO, DynamoDB)</div>
-      <div style="font-size:11px; color:var(--med-gray); background:var(--light-gray); padding:5px 12px; border-radius:20px;">Claude Sonnet 4.6 on AWS Bedrock</div>
-      <div style="font-size:11px; color:var(--navy); background:var(--light-cyan); padding:5px 12px; border-radius:20px; font-weight:500;">PII & secrets scrubbed</div>
-      <div style="font-size:11px; color:var(--navy); background:var(--light-cyan); padding:5px 12px; border-radius:20px; font-weight:500;">Read-only GitHub access</div>
-      <div style="font-size:11px; color:var(--navy); background:var(--light-cyan); padding:5px 12px; border-radius:20px; font-weight:500;">Quality evals on Arize</div>
-    </div>
-    <div class="slide-num" style="color: var(--med-gray);">3 / 8</div>
+    <div class="slide-num" style="color: rgba(255,255,255,0.35);">3 / 8</div>
   </div>
 
   <!-- ============================================================ -->
@@ -874,14 +1077,15 @@
       else document.exitFullscreen();
     }
     else if (e.key === 'Escape') {
-      const overlay = document.getElementById('overlay');
-      if (overlay.classList.contains('show')) overlay.classList.remove('show');
+      document.getElementById('overlay').classList.remove('show');
+      document.getElementById('orchestratorModal').classList.remove('show');
+      document.getElementById('agentModal').classList.remove('show');
     }
   });
 
   // Click on left/right halves to navigate
   document.addEventListener('click', e => {
-    if (e.target.closest('.nav-dot') || e.target.closest('.screenshot-card') || e.target.closest('.overlay') || e.target.closest('.feature-card')) return;
+    if (e.target.closest('.nav-dot') || e.target.closest('.screenshot-card') || e.target.closest('.overlay') || e.target.closest('.feature-card') || e.target.closest('.detail-modal-backdrop') || e.target.closest('.clickable-node')) return;
     const x = e.clientX / window.innerWidth;
     if (x > 0.65) next();
     else if (x < 0.35) prev();
