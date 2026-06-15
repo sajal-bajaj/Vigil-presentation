@@ -98,7 +98,7 @@
   .tag { font-size: 14px; font-weight: 700; color: var(--cyan); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
   .title { font-size: 48px; font-weight: 700; line-height: 1.15; margin-bottom: 8px; }
   .subtitle { font-size: 22px; font-weight: 300; color: var(--light-cyan); margin-bottom: 16px; }
-  .body-text { font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--med-gray); }
+  .body-text { font-size: 17px; font-weight: 300; line-height: 1.6; color: var(--med-gray); }
   .accent-line { width: 100px; height: 3px; background: var(--cyan); border-radius: 2px; margin: 16px 0; }
   .accent-line-wide { width: 100%; height: 2px; background: var(--cyan); border-radius: 2px; margin: 20px 0; opacity: 0.4; }
   .slide-num { position: absolute; bottom: 20px; right: 40px; font-size: 13px; color: var(--med-gray); font-weight: 300; }
@@ -143,7 +143,7 @@
     line-height: 1;
   }
   .metric-card .label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 300;
     opacity: 0.85;
     line-height: 1.4;
@@ -167,8 +167,8 @@
     transform: translateY(-4px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.08);
   }
-  .feature-card h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
-  .feature-card p { font-size: 13px; font-weight: 300; color: #555; line-height: 1.5; }
+  .feature-card h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .feature-card p { font-size: 15px; font-weight: 300; color: #555; line-height: 1.5; }
   .feature-card.cyan { border-left-color: var(--cyan); }
   .feature-card.red { border-left-color: var(--red); }
   .feature-card.green { border-left-color: var(--green); }
@@ -187,7 +187,7 @@
   .compare-col.before h3 { color: var(--red); }
   .compare-col.after h3 { color: var(--green); }
   .compare-col .step {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
     padding: 8px 12px;
     border-radius: 8px;
@@ -198,7 +198,7 @@
   .compare-col.after .step { background: rgba(46,125,50,0.1); color: #14532D; }
   .compare-col .time-badge {
     margin-top: 12px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     text-align: center;
     padding: 6px;
@@ -223,14 +223,14 @@
     margin-top: 12px;
   }
   .two-col .col h3 {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--cyan);
     margin-bottom: 16px;
   }
   .two-col .col ul { list-style: none; }
   .two-col .col ul li {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 300;
     padding: 8px 0;
     padding-left: 20px;
@@ -255,7 +255,7 @@
 
   /* Quote */
   .quote {
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 300;
     color: var(--light-cyan);
     font-style: italic;
@@ -278,9 +278,9 @@
     border-radius: 12px;
     padding: 20px;
   }
-  .testimonial .team-name { font-size: 14px; font-weight: 700; color: var(--cyan); margin-bottom: 8px; }
-  .testimonial .feedback { font-size: 12px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8); font-style: italic; }
-  .testimonial .rating { font-size: 13px; font-weight: 500; color: var(--cyan); margin-top: 10px; }
+  .testimonial .team-name { font-size: 16px; font-weight: 700; color: var(--cyan); margin-bottom: 8px; }
+  .testimonial .feedback { font-size: 14px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8); font-style: italic; }
+  .testimonial .rating { font-size: 14px; font-weight: 500; color: var(--cyan); margin-top: 10px; }
 
   /* Highlights list */
   .highlight-list { margin-top: 12px; }
@@ -658,7 +658,7 @@
       </div>
     </div>
 
-    <div class="anim body-text" style="text-align:center; margin-top:14px; font-size:13px; color: var(--med-gray);">
+    <div class="anim body-text" style="text-align:center; margin-top:14px; font-size:15px; color: var(--med-gray);">
       Engineers switch across Slack, Coralogix, GitHub, and Confluence — spending 15-30 min per alert before starting remediation.
     </div>
     <div class="slide-num" style="color: var(--med-gray);">2 / 8</div>
@@ -868,8 +868,8 @@
       </div>
     </div>
 
-    <div class="anim body-text" style="text-align:center; margin-top:12px; font-size:13px;">
-      Pilot teams: IAC (Nebula & Tenacity), Quasar, Echoes &nbsp;|&nbsp; 95% agent success rate &nbsp;|&nbsp; All teams recommend expanding
+    <div class="anim body-text" style="text-align:center; margin-top:12px; font-size:15px;">
+      Pilot teams: IAC (Nebula & Tenacity), Quasar, Echoes &nbsp;|&nbsp; All teams recommend expanding
     </div>
     <div class="slide-num">5 / 8</div>
   </div>
@@ -878,85 +878,92 @@
   <!-- SLIDE 6: ADOPTION & ONBOARDING -->
   <!-- ============================================================ -->
   <div class="slide bg-white content-heavy" data-slide="5">
-    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="logo" style="color: var(--navy);">G-P <span style="color: var(--med-gray);">| Vigil</span></div>
     <div class="anim tag" style="color: var(--navy);">Adoption & Onboarding</div>
-    <div class="anim title" style="font-size:32px; color: var(--navy);">Getting started with Vigil in 2 steps</div>
-    <div class="anim accent-line"></div>
+    <div class="anim title" style="font-size:32px; color: var(--navy);">Getting teams started with Vigil</div>
+    <div class="anim accent-line" style="background: var(--navy);"></div>
 
-    <!-- Top row: Onboarding steps + Adoption stats side by side -->
-    <div class="anim" style="display:flex; gap:40px; margin-top:12px; justify-content:center;">
+    <div class="anim" style="display:flex; gap:32px; margin-top:10px; align-items:stretch;">
 
       <!-- Left: Onboarding steps -->
-      <div style="flex:0 1 480px; display:flex; flex-direction:column; gap:12px;">
-        <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:1px;">HOW TO ONBOARD</div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:0;">
+        <div style="font-size:14px; font-weight:600; color:var(--navy); letter-spacing:1.5px; margin-bottom:16px;">HOW TO ONBOARD</div>
 
-        <div style="display:flex; gap:12px; align-items:flex-start;">
-          <div style="min-width:38px; height:38px; border-radius:50%; background:var(--navy); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700;">1</div>
+        <!-- Step 1 -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding-bottom:18px; border-left:3px solid rgba(36,36,63,0.15); margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-15px; top:-2px; width:28px; height:28px; border-radius:50%; background:var(--navy); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700;">1</div>
           <div>
-            <div style="font-size:14px; font-weight:700; color:var(--navy);">Request channel allowlisting</div>
-            <div style="font-size:12px; font-weight:300; color:#555; line-height:1.4;">Open a Jira ticket in IAC Board to add your prod alert channel to the Vigil allowlist.</div>
+            <div style="font-size:17px; font-weight:600; color:var(--navy);">Request channel allowlisting</div>
+            <div style="font-size:14px; font-weight:300; color:#666; line-height:1.5;">Open a Jira ticket to add your prod alert channel to the Vigil allowlist</div>
           </div>
         </div>
 
-        <div style="display:flex; gap:12px; align-items:flex-start;">
-          <div style="min-width:38px; height:38px; border-radius:50%; background:var(--navy); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700;">2</div>
+        <!-- Step 2 -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding-bottom:18px; border-left:3px solid rgba(36,36,63,0.15); margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-15px; top:-2px; width:28px; height:28px; border-radius:50%; background:var(--navy); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700;">2</div>
           <div>
-            <div style="font-size:14px; font-weight:700; color:var(--navy);">Invite Vigil to your channel</div>
-            <div style="font-size:12px; font-weight:300; color:#555; line-height:1.4;">Type <code style="background:#f0f0f0; padding:2px 5px; border-radius:4px; font-size:11px;">/invite @vigil</code> — Vigil starts listening instantly.</div>
+            <div style="font-size:17px; font-weight:600; color:var(--navy);">Invite Vigil to your channel</div>
+            <div style="font-size:14px; font-weight:300; color:#666; line-height:1.5;">Type <code style="background:var(--light-gray); padding:3px 8px; border-radius:5px; font-size:13px; color:var(--navy); font-weight:500;">/invite @vigil</code> — starts listening instantly</div>
           </div>
         </div>
 
-        <div style="display:flex; gap:12px; align-items:flex-start; opacity:0.75;">
-          <div style="min-width:38px; height:38px; border-radius:50%; background:var(--light-gray); color:var(--navy); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; border:2px dashed var(--med-gray);">+</div>
+        <!-- Optional -->
+        <div style="display:flex; gap:16px; align-items:flex-start; margin-left:14px; padding-left:22px; position:relative;">
+          <div style="position:absolute; left:-15px; top:-2px; width:28px; height:28px; border-radius:50%; background:white; color:var(--navy); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; border:2px dashed var(--med-gray);">+</div>
           <div>
-            <div style="font-size:14px; font-weight:700; color:var(--navy);">Optional: Frequency escalation</div>
-            <div style="font-size:12px; font-weight:300; color:#555; line-height:1.4;">Auto @mention managers when same alert fires 5+ times in 6 hours.</div>
+            <div style="font-size:17px; font-weight:600; color:var(--navy); opacity:0.7;">Optional: Frequency escalation</div>
+            <div style="font-size:14px; font-weight:300; color:#888; line-height:1.5;">Auto @mention managers when same alert fires 5+ times in 6 hours</div>
           </div>
         </div>
       </div>
 
-      <!-- Right: Big adoption numbers -->
-      <div style="flex:0 0 200px; display:flex; flex-direction:column; gap:12px;">
-        <div style="background:var(--navy); border-radius:14px; padding:22px; color:white; text-align:center;">
-          <div style="font-size:48px; font-weight:800; color:var(--cyan); line-height:1;">8</div>
-          <div style="font-size:13px; font-weight:400; margin-top:4px;">Teams Onboarded</div>
+      <!-- Right: Adoption numbers + mini timeline -->
+      <div style="flex:0 0 380px; display:flex; flex-direction:column; gap:14px;">
+
+        <!-- Stats row -->
+        <div style="display:flex; gap:14px;">
+          <div style="flex:1; background:var(--navy); border-radius:16px; padding:24px 16px; color:white; text-align:center;">
+            <div style="font-size:52px; font-weight:800; color:var(--cyan); line-height:1;">8</div>
+            <div style="font-size:15px; font-weight:400; margin-top:6px;">Teams Onboarded</div>
+          </div>
+          <div style="flex:1; background:var(--navy); border-radius:16px; padding:24px 16px; color:white; text-align:center;">
+            <div style="font-size:52px; font-weight:800; color:var(--cyan); line-height:1;">25</div>
+            <div style="font-size:15px; font-weight:400; margin-top:6px;">Active Channels</div>
+          </div>
         </div>
-        <div style="background:var(--navy); border-radius:14px; padding:22px; color:white; text-align:center;">
-          <div style="font-size:48px; font-weight:800; color:var(--cyan); line-height:1;">25</div>
-          <div style="font-size:13px; font-weight:400; margin-top:4px;">Active Channels</div>
+
+        <!-- Timeline card -->
+        <div style="background:var(--light-gray); border-radius:14px; padding:18px 20px; border:1px solid #e8e8e8;">
+          <div style="font-size:13px; font-weight:600; color:var(--navy); letter-spacing:1px; margin-bottom:12px;">ADOPTION TIMELINE</div>
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="min-width:80px; font-size:12px; color:var(--med-gray); text-align:right; font-weight:400;">Apr 16</div>
+              <div style="width:10px; height:10px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
+              <div style="font-size:14px; font-weight:500; color:var(--navy);">IAC <span style="font-weight:300; color:#888;">— 1 ch</span></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="min-width:80px; font-size:12px; color:var(--med-gray); text-align:right;">Apr 28</div>
+              <div style="width:10px; height:10px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
+              <div style="font-size:14px; font-weight:500; color:var(--navy);">Quasar, Echoes <span style="font-weight:300; color:#888;">— 6 ch</span></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="min-width:80px; font-size:12px; color:var(--med-gray); text-align:right;">May 21</div>
+              <div style="width:10px; height:10px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
+              <div style="font-size:14px; font-weight:500; color:var(--navy);">Rapidblazers, Legends, Rockumatica <span style="font-weight:300; color:#888;">— 8 ch</span></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="min-width:80px; font-size:12px; color:var(--med-gray); text-align:right;">Jun 1 – 11</div>
+              <div style="width:10px; height:10px; border-radius:50%; background:var(--green); flex-shrink:0;"></div>
+              <div style="font-size:14px; font-weight:500; color:var(--green);">Juggernauts + more <span style="font-weight:300; color:#888;">— 10 ch</span></div>
+            </div>
+          </div>
         </div>
-        <div style="text-align:center; font-size:11px; color:var(--med-gray); font-weight:300;">
-          Apr 16 – Jun 11, 2026
+
+        <div style="text-align:center; font-size:13px; color:var(--med-gray); font-weight:300;">
+          Apr 16 – Jun 11, 2026 &nbsp;|&nbsp; Zero-friction self-serve onboarding
         </div>
       </div>
 
-    </div>
-
-    <!-- Bottom: Adoption timeline -->
-    <div class="anim" style="margin-top:14px;">
-      <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:1px; margin-bottom:8px;">ADOPTION TIMELINE</div>
-      <div style="display:flex; gap:5px; flex-direction:column;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">Apr 16</div>
-          <div style="width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
-          <div style="flex:1; background:var(--light-gray); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy);">IAC (Nebula & Tenacity) <span style="font-weight:300; color:#777; font-size:10px;">— 1 ch</span></div>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">Apr 28 – 29</div>
-          <div style="width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
-          <div style="flex:1; background:var(--light-gray); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy);">Quasar <span style="font-weight:300; color:#777; font-size:10px;">— 3 ch</span> &nbsp; Echoes <span style="font-weight:300; color:#777; font-size:10px;">— 3 ch</span></div>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">May 21 – 26</div>
-          <div style="width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
-          <div style="flex:1; background:var(--light-gray); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy);">Rapidblazers &nbsp; IAC (Edge) &nbsp; Legends &nbsp; Rockumatica <span style="font-weight:300; color:#777; font-size:10px;">— 8 ch</span></div>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">Jun 1 – 11</div>
-          <div style="width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0;"></div>
-          <div style="flex:1; background:#e6f9ed; border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy); border:1px solid var(--green);">Juggernauts (Compliance Engine) <span style="font-weight:300; color:#777; font-size:10px;">— 8 ch</span> &nbsp; Rapidblazers <span style="font-weight:300; color:#777; font-size:10px;">— +2 ch</span></div>
-        </div>
-      </div>
     </div>
 
     <div class="slide-num" style="color: var(--med-gray);">6 / 8</div>
