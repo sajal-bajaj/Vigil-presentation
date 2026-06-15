@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G-P Vigil — Intern Capstone Presentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap');
+
+  :root {
+    --navy: #24243F;
+    --cyan: #5BE5EF;
+    --light-cyan: #CAFEFF;
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --med-gray: #999999;
+    --dark-text: #222222;
+    --red: #E8544E;
+    --green: #2E7D32;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #111;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* Stagger children animation */
+  .slide.active .anim {
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+  .slide.active .anim:nth-child(1) { animation-delay: 0.1s; }
+  .slide.active .anim:nth-child(2) { animation-delay: 0.2s; }
+  .slide.active .anim:nth-child(3) { animation-delay: 0.3s; }
+  .slide.active .anim:nth-child(4) { animation-delay: 0.4s; }
+  .slide.active .anim:nth-child(5) { animation-delay: 0.5s; }
+  .slide.active .anim:nth-child(6) { animation-delay: 0.6s; }
+  .slide.active .anim:nth-child(7) { animation-delay: 0.7s; }
+  .slide.active .anim:nth-child(8) { animation-delay: 0.8s; }
+  .slide.active .anim:nth-child(9) { animation-delay: 0.9s; }
+  .slide.active .anim:nth-child(10) { animation-delay: 1.0s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(91,229,239,0.3); }
+    50% { box-shadow: 0 0 40px rgba(91,229,239,0.6); }
+  }
+
+  @keyframes countUp {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Backgrounds */
+  .bg-navy { background: var(--navy); color: var(--white); }
+  .bg-white { background: var(--white); color: var(--dark-text); }
+  .bg-gradient {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a1a35 50%, #2d2d50 100%);
+    color: var(--white);
+  }
+
+  /* Typography */
+  .tag { font-size: 14px; font-weight: 700; color: var(--cyan); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+  .title { font-size: 48px; font-weight: 700; line-height: 1.15; margin-bottom: 8px; }
+  .subtitle { font-size: 22px; font-weight: 300; color: var(--light-cyan); margin-bottom: 16px; }
+  .body-text { font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--med-gray); }
+  .accent-line { width: 100px; height: 3px; background: var(--cyan); border-radius: 2px; margin: 16px 0; }
+  .accent-line-wide { width: 100%; height: 2px; background: var(--cyan); border-radius: 2px; margin: 20px 0; opacity: 0.4; }
+  .slide-num { position: absolute; bottom: 20px; right: 40px; font-size: 13px; color: var(--med-gray); font-weight: 300; }
+
+  /* G-P Logo */
+  .logo {
+    position: absolute;
+    top: 18px;
+    left: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    z-index: 10;
+  }
+  .slide.content-heavy {
+    justify-content: flex-start;
+    padding-top: 54px;
+  }
+  .logo span { color: var(--white); font-weight: 300; }
+  .bg-white .logo span { color: var(--dark-text); }
+
+  /* Cards */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .metric-card {
+    border-radius: 16px;
+    padding: 32px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card .big-num {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .metric-card .label {
+    font-size: 13px;
+    font-weight: 300;
+    opacity: 0.85;
+    line-height: 1.4;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .feature-card {
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 24px 28px;
+    border-left: 5px solid var(--navy);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+  .feature-card h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .feature-card p { font-size: 13px; font-weight: 300; color: #555; line-height: 1.5; }
+  .feature-card.cyan { border-left-color: var(--cyan); }
+  .feature-card.red { border-left-color: var(--red); }
+  .feature-card.green { border-left-color: var(--green); }
+
+  /* Before/After */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 16px;
+  }
+  .compare-col { border-radius: 16px; padding: 28px 24px; }
+  .compare-col.before { background: #FEE2E2; border: 2px solid var(--red); }
+  .compare-col.after { background: #DCFCE7; border: 2px solid var(--green); }
+  .compare-col h3 { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+  .compare-col.before h3 { color: var(--red); }
+  .compare-col.after h3 { color: var(--green); }
+  .compare-col .step {
+    font-size: 13px;
+    font-weight: 400;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .compare-col.before .step { background: rgba(232,84,78,0.1); color: #7F1D1D; }
+  .compare-col.after .step { background: rgba(46,125,50,0.1); color: #14532D; }
+  .compare-col .time-badge {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    padding: 6px;
+    border-radius: 8px;
+  }
+  .compare-col.before .time-badge { background: var(--red); color: white; }
+  .compare-col.after .time-badge { background: var(--green); color: white; }
+
+  /* Architecture SVG */
+  .arch-container {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+  .arch-container svg { max-width: 100%; height: auto; }
+
+  /* Two-column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 12px;
+  }
+  .two-col .col h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 16px;
+  }
+  .two-col .col ul { list-style: none; }
+  .two-col .col ul li {
+    font-size: 14px;
+    font-weight: 300;
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .two-col .col ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+  }
+  .col-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.15);
+    align-self: stretch;
+  }
+
+  /* Quote */
+  .quote {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--light-cyan);
+    font-style: italic;
+    text-align: center;
+    padding: 20px 40px;
+    border-top: 2px solid rgba(91,229,239,0.3);
+    margin-top: 20px;
+  }
+
+  /* Testimonials */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .testimonial {
+    background: rgba(91,229,239,0.08);
+    border: 1px solid rgba(91,229,239,0.2);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .testimonial .team-name { font-size: 14px; font-weight: 700; color: var(--cyan); margin-bottom: 8px; }
+  .testimonial .feedback { font-size: 12px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8); font-style: italic; }
+  .testimonial .rating { font-size: 13px; font-weight: 500; color: var(--cyan); margin-top: 10px; }
+
+  /* Highlights list */
+  .highlight-list { margin-top: 12px; }
+  .highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dark-text);
+  }
+  .highlight-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--cyan);
+    flex-shrink: 0;
+  }
+
+  /* Thank you */
+  .thank-you-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .thank-you-center .title { font-size: 64px; margin-bottom: 12px; }
+  .thank-you-center .questions {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-top: 30px;
+    animation: pulseGlow 2s ease infinite;
+    padding: 12px 40px;
+    border-radius: 12px;
+    background: rgba(91,229,239,0.08);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--cyan);
+    transition: width 0.5s ease;
+    z-index: 100;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+  }
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+  .nav-dot.active {
+    background: var(--cyan);
+    transform: scale(1.4);
+  }
+  .nav-dot:hover { background: rgba(91,229,239,0.6); }
+
+  /* Controls hint */
+  .controls-hint {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--med-gray);
+    font-weight: 300;
+    z-index: 100;
+    opacity: 0.6;
+  }
+
+  /* Screenshot images */
+  .screenshot-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .screenshot-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(91,229,239,0.3);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .screenshot-card:hover { transform: scale(1.03); }
+  .screenshot-card img { width: 100%; display: block; }
+  .screenshot-card .ss-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(36,36,63,0.95));
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 20px 10px 8px;
+    text-align: center;
+  }
+
+  /* Fullscreen overlay for screenshots */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    cursor: pointer;
+  }
+  .overlay.show { display: flex; }
+  .overlay img { max-width: 90vw; max-height: 90vh; border-radius: 12px; }
+
+  /* Architecture diagram styles */
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .arch-node {
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 110px;
+    transition: transform 0.3s ease;
+  }
+  .arch-node:hover { transform: scale(1.05); }
+  .arch-arrow { font-size: 24px; color: var(--cyan); }
+  .arch-sub {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+  .arch-sub-node {
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 400;
+    text-align: center;
+    border: 1.5px solid;
+    min-width: 100px;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="nav-dots" id="navDots"></div>
+
+<div class="controls-hint">Arrow keys or click to navigate | Press F for fullscreen</div>
+
+<!-- Fullscreen overlay for screenshots -->
+<div class="overlay" id="overlay" onclick="this.classList.remove('show')">
+  <img id="overlayImg" src="" alt="Screenshot">
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 1: INTRODUCTION -->
+  <!-- ============================================================ -->
+  <div class="slide bg-gradient active" data-slide="0">
+    <div class="logo">G-P <span>| Intern Capstone</span></div>
+    <div class="anim tag">Intern Capstone Project</div>
+    <div class="anim title">G-P Vigil</div>
+    <div class="anim accent-line"></div>
+    <div class="anim subtitle">An Agentic Approach to Incident Triage</div>
+    <div class="anim accent-line-wide"></div>
+    <div class="anim body-text">Sajal Bajaj &nbsp;|&nbsp; Software Engineering Intern</div>
+    <div class="anim body-text" style="margin-top:4px; font-size:14px;">January 2026 - June 2026 &nbsp;|&nbsp; 6-month internship</div>
+    <div class="slide-num">1 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 2: THE PROBLEM -->
+  <!-- ============================================================ -->
+  <div class="slide bg-white" data-slide="1">
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="anim tag" style="color: var(--red);">The Problem</div>
+    <div class="anim title" style="font-size:36px; color: var(--navy);">Incident triage is slow, manual, and noisy</div>
+    <div class="anim accent-line" style="background: var(--red);"></div>
+
+    <div class="anim compare-grid">
+      <div class="compare-col before">
+        <h3>BEFORE Vigil</h3>
+        <div class="step">1. Alert fires in Slack</div>
+        <div class="step">2. Manually search Coralogix logs</div>
+        <div class="step">3. Switch to GitHub to find code</div>
+        <div class="step">4. Cross-reference logs, code, docs</div>
+        <div class="step">5. Write RCA manually</div>
+        <div class="step">6. Each duplicate repeats the cycle</div>
+        <div class="time-badge">15 - 30 min per alert</div>
+      </div>
+      <div class="compare-col after">
+        <h3>AFTER Vigil</h3>
+        <div class="step">1. Alert fires in Slack</div>
+        <div class="step">2. Vigil auto-analyzes logs + code</div>
+        <div class="step">3. RCA posted in-thread</div>
+        <div class="step">4. Team reviews & acts</div>
+        <div class="step" style="background: rgba(46,125,50,0.05); text-align: center; font-weight: 600;">71% of recurring alerts = instant cached response</div>
+        <div class="time-badge">~2 min fresh RCA | Cached = instant</div>
+      </div>
+    </div>
+
+    <div class="anim body-text" style="text-align:center; margin-top:14px; font-size:13px; color: var(--med-gray);">
+      Engineers switch across Slack, Coralogix, GitHub, and Confluence — spending 15-30 min per alert before starting remediation.
+    </div>
+    <div class="slide-num" style="color: var(--med-gray);">2 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 3: THE SOLUTION — ARCHITECTURE -->
+  <!-- ============================================================ -->
+  <div class="slide bg-white" data-slide="2">
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="anim tag" style="color: var(--navy);">The Solution</div>
+    <div class="anim title" style="font-size:34px; color: var(--navy);">Vigil: AI-powered incident triage in Slack</div>
+    <div class="anim accent-line"></div>
+
+    <!-- Architecture flow - HTML based -->
+    <div class="anim arch-flow">
+      <div class="arch-node" style="background: var(--red); color: white;">
+        Coralogix<br>Alert
+      </div>
+      <div class="arch-arrow">&#10132;</div>
+      <div class="arch-node" style="background: #4A154B; color: white;">
+        Slack<br>Channel
+      </div>
+      <div class="arch-arrow">&#10132;</div>
+      <div class="arch-node" style="background: var(--navy); color: white; min-width: 180px; animation: pulseGlow 3s ease infinite;">
+        <strong>Vigil Orchestrator</strong><br>
+        <span style="font-size:10px; color: var(--light-cyan);">Ingester &nbsp;|&nbsp; Relay &nbsp;|&nbsp; History DB</span>
+      </div>
+      <div class="arch-arrow">&#10132;</div>
+      <div class="arch-node" style="background: var(--cyan); color: var(--navy);">
+        <strong>Vigil AI<br>Agent</strong>
+      </div>
+      <div class="arch-arrow">&#10132;</div>
+      <div class="arch-node" style="background: var(--green); color: white;">
+        Slack RCA<br>Response
+      </div>
+    </div>
+
+    <div class="anim arch-sub">
+      <div class="arch-sub-node" style="background: var(--light-cyan); border-color: var(--cyan); color: var(--navy);">Cached RCA</div>
+      <div class="arch-sub-node" style="background: var(--light-cyan); border-color: var(--cyan); color: var(--navy);">Known Issue</div>
+      <div class="arch-sub-node" style="background: var(--light-cyan); border-color: var(--cyan); color: var(--navy);">Frequency Escalation</div>
+      <div class="arch-sub-node" style="background: #F0F0FF; border-color: #CCCCDD; color: var(--navy);">Coralogix MCP</div>
+      <div class="arch-sub-node" style="background: #F0F0FF; border-color: #CCCCDD; color: var(--navy);">GitHub MCP</div>
+      <div class="arch-sub-node" style="background: #F0F0FF; border-color: #CCCCDD; color: var(--navy);">RCA Skill</div>
+    </div>
+
+    <div class="anim" style="display:flex; justify-content:center; gap:20px; margin-top:14px; flex-wrap:wrap;">
+      <div style="font-size:11px; color:var(--med-gray); background:var(--light-gray); padding:5px 12px; border-radius:20px;">AWS Serverless (Lambda, SQS FIFO, DynamoDB)</div>
+      <div style="font-size:11px; color:var(--med-gray); background:var(--light-gray); padding:5px 12px; border-radius:20px;">Claude Sonnet 4.6 on AWS Bedrock</div>
+      <div style="font-size:11px; color:var(--navy); background:var(--light-cyan); padding:5px 12px; border-radius:20px; font-weight:500;">PII & secrets scrubbed</div>
+      <div style="font-size:11px; color:var(--navy); background:var(--light-cyan); padding:5px 12px; border-radius:20px; font-weight:500;">Read-only GitHub access</div>
+      <div style="font-size:11px; color:var(--navy); background:var(--light-cyan); padding:5px 12px; border-radius:20px; font-weight:500;">Quality evals on Arize</div>
+    </div>
+    <div class="slide-num" style="color: var(--med-gray);">3 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 4: KEY FEATURES + SCREENSHOTS -->
+  <!-- ============================================================ -->
+  <div class="slide bg-white content-heavy" data-slide="3">
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="anim tag" style="color: var(--navy);">Key Features</div>
+    <div class="anim title" style="font-size:32px; color: var(--navy);">What Vigil delivers to on-call teams</div>
+    <div class="anim accent-line"></div>
+
+    <div class="anim feature-grid">
+      <div class="feature-card">
+        <h3>Automated RCA</h3>
+        <p>Reads Coralogix logs + GitHub code around the alert timeframe. Posts structured RCA with evidence and confidence levels in the Slack thread (~2 min).</p>
+      </div>
+      <div class="feature-card cyan">
+        <h3>Smart Caching</h3>
+        <p>71% cache hit rate on recurring alerts = instant response. DynamoDB-backed fingerprinting with 15-day staleness. Click 'Analyse' anytime for a fresh look.</p>
+      </div>
+      <div class="feature-card red">
+        <h3>Known Issue Tagging</h3>
+        <p>Engineers mark alerts as known issues with Jira links and custom comments. Future occurrences skip analysis entirely, reducing noise.</p>
+      </div>
+      <div class="feature-card green">
+        <h3>Frequency Escalation</h3>
+        <p>Auto @mentions channel managers when an alert fires repeatedly beyond configured thresholds. Configuration-driven, per-channel control.</p>
+      </div>
+    </div>
+
+    <div class="anim screenshot-row">
+      <div class="screenshot-card" onclick="showOverlay(this)">
+        <img src="vigil-presentation-assets/rca.png" alt="RCA">
+        <div class="ss-label">Actionable RCA</div>
+      </div>
+      <div class="screenshot-card" onclick="showOverlay(this)">
+        <img src="vigil-presentation-assets/cached.png" alt="Cached">
+        <div class="ss-label">Cached Response</div>
+      </div>
+      <div class="screenshot-card" onclick="showOverlay(this)">
+        <img src="vigil-presentation-assets/known_issue.png" alt="Known Issue">
+        <div class="ss-label">Known Issue</div>
+      </div>
+      <div class="screenshot-card" onclick="showOverlay(this)">
+        <img src="vigil-presentation-assets/escalation.png" alt="Escalation">
+        <div class="ss-label">Escalation</div>
+      </div>
+    </div>
+    <div class="slide-num" style="color: var(--med-gray);">4 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 5: IMPACT & OUTCOMES -->
+  <!-- ============================================================ -->
+  <div class="slide bg-gradient content-heavy" data-slide="4">
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="anim tag">Production Results</div>
+    <div class="anim title" style="font-size:34px;">Measurable impact on incident response</div>
+    <div class="anim accent-line"></div>
+
+    <div class="anim metric-grid">
+      <div class="metric-card" style="background: var(--red);">
+        <div class="big-num">1K+</div>
+        <div class="label">Alerts analysed<br>across 8 teams</div>
+      </div>
+      <div class="metric-card" style="background: var(--cyan); color: var(--navy);">
+        <div class="big-num" style="color: var(--navy);">~2 min</div>
+        <div class="label" style="color: var(--navy);">Avg RCA<br>response time</div>
+      </div>
+      <div class="metric-card" style="background: var(--navy); border: 1.5px solid var(--cyan);">
+        <div class="big-num">58%</div>
+        <div class="label">Bedrock cost<br>reduction via caching</div>
+      </div>
+      <div class="metric-card" style="background: var(--green);">
+        <div class="big-num">4/5</div>
+        <div class="label">Quality rating<br>from all pilot teams</div>
+      </div>
+    </div>
+
+    <div class="anim testimonial-grid">
+      <div class="testimonial">
+        <div class="team-name">Echoes</div>
+        <div class="feedback">"Analysis is helpful and to the point."</div>
+        <div class="rating">Quality: 4/5 &nbsp;|&nbsp; Actionability: 5/5</div>
+      </div>
+      <div class="testimonial">
+        <div class="team-name">Quasar</div>
+        <div class="feedback">"Root Cause analysis, Evidence Gathering and Recommended actions are generally helpful and time saving."</div>
+        <div class="rating">Quality: 4/5 &nbsp;|&nbsp; Actionability: 5/5</div>
+      </div>
+      <div class="testimonial">
+        <div class="team-name">IAC</div>
+        <div class="feedback">"~40% bandwidth saved. Perf improvement, timeout handling, retry fixes prompted by Vigil are correct."</div>
+        <div class="rating">Quality: 4/5 &nbsp;|&nbsp; Actionability: 5/5</div>
+      </div>
+    </div>
+
+    <div class="anim body-text" style="text-align:center; margin-top:12px; font-size:13px;">
+      Pilot teams: IAC (Nebula & Tenacity), Quasar, Echoes &nbsp;|&nbsp; 95% agent success rate &nbsp;|&nbsp; All teams recommend expanding
+    </div>
+    <div class="slide-num">5 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 6: ADOPTION & ONBOARDING -->
+  <!-- ============================================================ -->
+  <div class="slide bg-white content-heavy" data-slide="5">
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="anim tag" style="color: var(--navy);">Adoption & Onboarding</div>
+    <div class="anim title" style="font-size:32px; color: var(--navy);">Getting started with Vigil in 2 steps</div>
+    <div class="anim accent-line"></div>
+
+    <!-- Top row: Onboarding steps + Adoption stats side by side -->
+    <div class="anim" style="display:flex; gap:40px; margin-top:12px; justify-content:center;">
+
+      <!-- Left: Onboarding steps -->
+      <div style="flex:0 1 480px; display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:1px;">HOW TO ONBOARD</div>
+
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="min-width:38px; height:38px; border-radius:50%; background:var(--navy); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700;">1</div>
+          <div>
+            <div style="font-size:14px; font-weight:700; color:var(--navy);">Request channel allowlisting</div>
+            <div style="font-size:12px; font-weight:300; color:#555; line-height:1.4;">Open a Jira ticket in IAC Board to add your prod alert channel to the Vigil allowlist.</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="min-width:38px; height:38px; border-radius:50%; background:var(--navy); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700;">2</div>
+          <div>
+            <div style="font-size:14px; font-weight:700; color:var(--navy);">Invite Vigil to your channel</div>
+            <div style="font-size:12px; font-weight:300; color:#555; line-height:1.4;">Type <code style="background:#f0f0f0; padding:2px 5px; border-radius:4px; font-size:11px;">/invite @vigil</code> — Vigil starts listening instantly.</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:flex-start; opacity:0.75;">
+          <div style="min-width:38px; height:38px; border-radius:50%; background:var(--light-gray); color:var(--navy); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; border:2px dashed var(--med-gray);">+</div>
+          <div>
+            <div style="font-size:14px; font-weight:700; color:var(--navy);">Optional: Frequency escalation</div>
+            <div style="font-size:12px; font-weight:300; color:#555; line-height:1.4;">Auto @mention managers when same alert fires 5+ times in 6 hours.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Big adoption numbers -->
+      <div style="flex:0 0 200px; display:flex; flex-direction:column; gap:12px;">
+        <div style="background:var(--navy); border-radius:14px; padding:22px; color:white; text-align:center;">
+          <div style="font-size:48px; font-weight:800; color:var(--cyan); line-height:1;">8</div>
+          <div style="font-size:13px; font-weight:400; margin-top:4px;">Teams Onboarded</div>
+        </div>
+        <div style="background:var(--navy); border-radius:14px; padding:22px; color:white; text-align:center;">
+          <div style="font-size:48px; font-weight:800; color:var(--cyan); line-height:1;">25</div>
+          <div style="font-size:13px; font-weight:400; margin-top:4px;">Active Channels</div>
+        </div>
+        <div style="text-align:center; font-size:11px; color:var(--med-gray); font-weight:300;">
+          Apr 16 – Jun 11, 2026
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom: Adoption timeline -->
+    <div class="anim" style="margin-top:14px;">
+      <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:1px; margin-bottom:8px;">ADOPTION TIMELINE</div>
+      <div style="display:flex; gap:5px; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">Apr 16</div>
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
+          <div style="flex:1; background:var(--light-gray); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy);">IAC (Nebula & Tenacity) <span style="font-weight:300; color:#777; font-size:10px;">— 1 ch</span></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">Apr 28 – 29</div>
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
+          <div style="flex:1; background:var(--light-gray); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy);">Quasar <span style="font-weight:300; color:#777; font-size:10px;">— 3 ch</span> &nbsp; Echoes <span style="font-weight:300; color:#777; font-size:10px;">— 3 ch</span></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">May 21 – 26</div>
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0;"></div>
+          <div style="flex:1; background:var(--light-gray); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy);">Rapidblazers &nbsp; IAC (Edge) &nbsp; Legends &nbsp; Rockumatica <span style="font-weight:300; color:#777; font-size:10px;">— 8 ch</span></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="min-width:80px; font-size:10px; color:var(--med-gray); text-align:right;">Jun 1 – 11</div>
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0;"></div>
+          <div style="flex:1; background:#e6f9ed; border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--navy); border:1px solid var(--green);">Juggernauts (Compliance Engine) <span style="font-weight:300; color:#777; font-size:10px;">— 8 ch</span> &nbsp; Rapidblazers <span style="font-weight:300; color:#777; font-size:10px;">— +2 ch</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-num" style="color: var(--med-gray);">6 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 7: LEARNINGS & EXPERIENCE -->
+  <!-- ============================================================ -->
+  <div class="slide bg-navy" data-slide="6">
+
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="anim tag">My Experience</div>
+    <div class="anim title" style="font-size:34px;">Learnings, challenges & growth</div>
+    <div class="anim accent-line"></div>
+
+    <div class="anim two-col">
+      <div class="col">
+        <h3>Technical Learnings</h3>
+        <ul>
+          <li>Agentic AI architecture (Claude Sonnet 4.6 on Bedrock)</li>
+          <li>AWS serverless (Lambda, SQS FIFO, DynamoDB, SAM)</li>
+          <li>MCP protocol integration (Coralogix, GitHub)</li>
+          <li>Prompt caching & cost optimization (~90% savings)</li>
+          <li>Skills-based modular agent architecture</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Non-Technical & Challenges</h3>
+        <ul>
+          <li>Owned a product from zero to production</li>
+          <li>Cross-team collaboration (IAC, Quasar, Echoes)</li>
+          <li>Wrote RFCs, threat models, and rollout reports</li>
+          <li>Handled real production incidents & user feedback</li>
+          <li>Balancing speed with reliability & enterprise security</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="anim quote">
+      "This internship gave me the rare opportunity to build and ship an AI product end-to-end in a real enterprise environment."
+    </div>
+    <div class="slide-num">7 / 8</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 8: THANK YOU -->
+  <!-- ============================================================ -->
+  <div class="slide bg-gradient" data-slide="7">
+    <div class="logo">G-P <span>| Vigil</span></div>
+    <div class="thank-you-center">
+      <div class="anim title" style="font-size:64px;">Thank You</div>
+      <div class="anim accent-line" style="margin: 12px auto;"></div>
+      <div class="anim subtitle" style="font-size:20px;">G-P Vigil — Turning alert chaos into confident response</div>
+      <div class="anim body-text" style="color: var(--med-gray); margin-top: 8px;">Sajal Bajaj &nbsp;|&nbsp; Software Engineering Intern &nbsp;|&nbsp; G-P</div>
+      <div class="anim questions">Questions?</div>
+    </div>
+    <div class="slide-num">8 / 8</div>
+  </div>
+
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  // Build nav dots
+  const navDots = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    navDots.appendChild(dot);
+  });
+
+  function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    const goingForward = n > current;
+    const oldSlide = slides[current];
+    const newSlide = slides[n];
+
+    oldSlide.classList.remove('active');
+    oldSlide.style.opacity = '0';
+    oldSlide.style.transform = goingForward ? 'translateX(-60px)' : 'translateX(60px)';
+    oldSlide.style.pointerEvents = 'none';
+
+    current = n;
+
+    newSlide.style.transform = goingForward ? 'translateX(60px)' : 'translateX(-60px)';
+    newSlide.style.opacity = '0';
+    newSlide.offsetHeight;
+    newSlide.classList.add('active');
+    newSlide.style.transform = 'translateX(0)';
+    newSlide.style.opacity = '1';
+    newSlide.style.pointerEvents = 'auto';
+
+    newSlide.querySelectorAll('.anim').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+
+    document.querySelectorAll('.nav-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+
+    document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { e.preventDefault(); prev(); }
+    else if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+    else if (e.key === 'Escape') {
+      const overlay = document.getElementById('overlay');
+      if (overlay.classList.contains('show')) overlay.classList.remove('show');
+    }
+  });
+
+  // Click on left/right halves to navigate
+  document.addEventListener('click', e => {
+    if (e.target.closest('.nav-dot') || e.target.closest('.screenshot-card') || e.target.closest('.overlay') || e.target.closest('.feature-card')) return;
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.65) next();
+    else if (x < 0.35) prev();
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next(); else prev();
+    }
+  });
+
+  // Screenshot overlay
+  function showOverlay(card) {
+    const img = card.querySelector('img');
+    const overlay = document.getElementById('overlay');
+    document.getElementById('overlayImg').src = img.src;
+    overlay.classList.add('show');
+  }
+
+  // Initialize progress bar
+  document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
